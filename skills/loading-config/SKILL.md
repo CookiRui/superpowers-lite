@@ -14,13 +14,28 @@ Read and apply user preferences from `.superpowers.yml`.
 ## The Process
 
 1. **Look for `.superpowers.yml`** in the project root (current working directory)
-2. **If found:** Read it, parse YAML
-3. **Validate** — invoke `config-validation` to check for errors/warnings
-4. **Apply preset** — if `preset` is set, load preset defaults first (see `pipeline-presets`)
-5. **Apply explicit settings** — user's explicit settings override preset defaults
-6. **Load custom skills** — if `custom_skills_dir` is set, scan for custom skills (see `custom-skills`)
-7. **Check for interrupted work** — if `.superpowers/progress.json` exists, offer to resume (see `progress-tracking`)
-8. **If not found:** Use all defaults (equivalent to original superpowers behavior)
+2. **If found:** Read it and attempt to parse YAML
+3. **If YAML parsing fails:** Warn the user and fall back to all defaults:
+   > "⚠ `.superpowers.yml` has a YAML syntax error: {error message}. Using default settings. Fix the file to apply your preferences."
+4. **Validate** — invoke `config-validation` to check for errors/warnings
+5. **Apply preset** — if `preset` is set, load preset defaults first (see `pipeline-presets`)
+6. **Apply explicit settings** — user's explicit settings override preset defaults
+7. **Load custom skills** — if `custom_skills_dir` is set, scan for custom skills (see `custom-skills`)
+8. **Check for interrupted work** — if `.superpowers/progress.json` exists, offer to resume (see `progress-tracking`)
+9. **If not found:** Use all defaults (equivalent to original superpowers behavior)
+
+## Error Handling
+
+| Scenario | Behavior |
+|----------|----------|
+| `.superpowers.yml` not found | Use all defaults silently — no warning |
+| YAML syntax error | Warn user, use all defaults |
+| Unknown key in config | Warn user (with "did you mean?" suggestions), ignore the key |
+| Invalid value for known key | Warn user, use default for that key |
+| `preset` + conflicting explicit settings | Explicit settings win — this is intentional, not an error |
+| `pipeline` is empty array | Warn user, use default pipeline |
+| `pipeline` references nonexistent skill | Warn user, skip that stage |
+| `.superpowers/progress.json` is corrupted | Warn user, offer to delete and start fresh |
 
 ## Default Values
 

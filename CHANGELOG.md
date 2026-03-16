@@ -2,6 +2,21 @@
 
 All notable changes to Superpowers Lite are documented in this file.
 
+## [1.2.0] - 2026-03-16
+
+### Added
+- **Project setup skill** — Auto-generates CLAUDE.md from spec/plan/config before implementation starts
+
+### Changed
+- Pipeline now includes `project-setup` between workspace setup and task execution
+- Updated executing-plans and subagent-driven-development to require project-setup
+- Improved loading-config with YAML error handling and fallback behavior
+- Enhanced progress-tracking with recovery scenarios for corrupted state
+- Enhanced config-validation with YAML syntax error handling
+- Enhanced custom-skills with missing skill error handling
+- Improved quick-mode with explicit rationale for skipping project-setup
+- Updated README comparison table with all new features
+
 ## [1.1.0] - 2026-03-16
 
 ### Added

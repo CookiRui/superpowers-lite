@@ -111,13 +111,14 @@ If during implementation you discover:
 
 ## Integration
 
-**May skip:**
-- brainstorming (no spec document needed)
-- writing-plans (no plan document needed)
-- using-git-worktrees (optional for small changes)
-- spec-review and code-review (if `skip_review_in_quick_mode: true`)
+**May skip (and why):**
+- **brainstorming** — no spec document needed; the task is already well-defined
+- **writing-plans** — no plan document needed; the task is one step, not a multi-task plan
+- **using-git-worktrees** — optional for small changes; not worth the overhead for a typo fix
+- **project-setup** — no CLAUDE.md generation needed; quick tasks don't spawn subagents that need project context, and the change is too small to warrant updating conventions
+- **spec-review and code-review** — if `skip_review_in_quick_mode: true`; trivial changes don't benefit from formal review
 
 **Still uses:**
-- test-driven-development (if `tdd: required` or `tdd: recommended`)
-- verification-before-completion (always)
-- systematic-debugging (if debugging is needed)
+- **test-driven-development** (if `tdd: required` or `tdd: recommended`) — even small changes should be tested
+- **verification-before-completion** (always) — evidence before claims, no matter the task size
+- **systematic-debugging** (if debugging is needed) — root cause matters even for small bugs

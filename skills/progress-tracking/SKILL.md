@@ -100,6 +100,21 @@ Options:
    - Delete `.superpowers/progress.json`
    - Proceed normally
 
+### Recovery Scenarios
+
+Handle these error cases gracefully:
+
+| Scenario | Recovery |
+|----------|----------|
+| `progress.json` is corrupted / invalid JSON | Warn user: "Progress file is corrupted." Offer to delete and start fresh. |
+| Referenced branch no longer exists | Warn user: "Branch '{name}' was deleted." Offer to start over or create a new branch. |
+| Referenced worktree was manually removed | Warn user: "Worktree at '{path}' no longer exists." Offer to recreate or start over. |
+| Plan file was modified since last save | Warn user: "Plan has changed since last session." Show diff summary. Offer to re-read plan and adjust remaining tasks. |
+| Completed tasks have been reverted (commit SHAs don't match) | Warn user: "Some completed work appears to have been reverted." List affected tasks. Let user decide whether to re-do or skip. |
+| `progress.json` references a spec/plan path that no longer exists | Warn user. Offer to locate the file or start over. |
+
+**General rule:** Never silently ignore corrupted state. Always inform the user and offer clear options.
+
 ### When to Save
 
 Save progress at these points:

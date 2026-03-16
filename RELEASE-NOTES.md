@@ -1,5 +1,17 @@
 # Superpowers Lite Release Notes
 
+## v1.2.0 (2026-03-16)
+
+Project setup and quality improvements.
+
+**New skill:** project-setup — auto-generates CLAUDE.md before implementation
+
+**Improvements:**
+- Pipeline now includes project-setup stage
+- Enhanced error handling in loading-config, config-validation, progress-tracking, custom-skills
+- Improved documentation depth for all new skills
+- Updated README comparison table
+
 ## v1.1.0 (2026-03-16)
 
 Full feature release with all planned optimizations.

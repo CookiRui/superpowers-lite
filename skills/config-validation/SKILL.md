@@ -11,6 +11,13 @@ Validate `.superpowers.yml` and warn the user about problems.
 
 Automatically called by `loading-config` after reading the config file.
 
+## Pre-Validation: YAML Syntax
+
+Before checking keys/values, confirm the file is valid YAML. If parsing fails:
+- Report the exact error and line number to the user
+- Fall back to all defaults immediately — do NOT attempt partial parsing
+- Example: `⚠ .superpowers.yml line 12: mapping values are not allowed here`
+
 ## Validation Rules
 
 ### Valid Keys
@@ -19,7 +26,8 @@ Top-level keys must be one of:
 ```
 mode, quick_mode, tdd, auto_commit, use_worktree, branch_pattern,
 spec_review, code_review, review_mode, paths, pipeline,
-skip_review_in_quick_mode, max_review_iterations, skills, preset
+skip_review_in_quick_mode, max_review_iterations, skills, preset,
+track_tokens, track_metrics, custom_skills_dir
 ```
 
 ### Value Validation
@@ -76,3 +84,31 @@ Using defaults for invalid values. Fix warnings in .superpowers.yml to suppress 
 ```
 
 If no problems, say nothing — don't clutter the session with "config is valid" messages.
+
+## "Did You Mean?" Suggestions
+
+For unknown keys, suggest the closest valid key:
+
+| Typo | Suggestion |
+|------|-----------|
+| `tddd` | `tdd` |
+| `mode_` | `mode` |
+| `autocommit` | `auto_commit` |
+| `worktree` | `use_worktree` |
+| `reviews` | `review_mode` |
+| `spec_reviews` | `spec_review` |
+| `code_reviews` | `code_review` |
+| `path` | `paths` |
+
+Use Levenshtein distance ≤ 2 or prefix matching for suggestions.
+
+## Edge Cases
+
+| Scenario | Behavior |
+|----------|----------|
+| Empty file | Valid YAML (null), use all defaults |
+| File contains only comments | Valid YAML (null), use all defaults |
+| `pipeline: []` (empty array) | Warn: "Empty pipeline — no stages will run. Using default pipeline." |
+| `pipeline` has duplicates | Warn: "Duplicate stage '{name}' in pipeline — will only run once." |
+| `preset: startup` + `mode: full` | Not a conflict — explicit `mode` overrides preset's `mode`. No warning. |
+| `custom_skills_dir` points to nonexistent dir | Warn: "Custom skills directory '{path}' not found — skipping custom skill loading." |

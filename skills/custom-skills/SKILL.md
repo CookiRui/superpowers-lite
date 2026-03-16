@@ -82,6 +82,17 @@ pipeline:
 - **Version control custom skills.** They're project-specific, so commit them.
 - **Use the `writing-skills` skill** to create well-structured custom skills.
 
+## Error Handling
+
+| Scenario | Behavior |
+|----------|----------|
+| `custom_skills_dir` doesn't exist | Warn: "Custom skills directory '{path}' not found — skipping." Don't create it automatically. |
+| Directory exists but is empty | Silently continue — no warning needed. |
+| SKILL.md is missing in a subdirectory | Warn: "Custom skill '{dir}' has no SKILL.md — skipping." |
+| SKILL.md has no frontmatter (no `name` or `description`) | Warn: "Custom skill '{dir}/SKILL.md' is missing frontmatter — skipping." |
+| Custom skill name conflicts with built-in | Custom wins (override). Log: "Custom skill '{name}' overrides built-in skill." |
+| Pipeline references a custom skill that doesn't exist | Warn: "Pipeline references skill '{name}' which was not found in built-in or custom skills — skipping stage." |
+
 ## Integration
 
 **Called by:**

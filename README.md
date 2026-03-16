@@ -8,13 +8,16 @@ An optimized fork of [superpowers](https://github.com/obra/superpowers) by Jesse
 |---------|-------------|-----------------|
 | Workflow mode | Always full pipeline | Full, Quick, or Auto mode |
 | Small tasks | Full brainstorming → spec → plan | Quick mode: straight to implementation |
+| CLAUDE.md | Manual | Auto-generated from spec/plan/config |
 | TDD | Always required | Required / Recommended / Off |
 | Document paths | Hardcoded `docs/superpowers/specs/` | Configurable via `.superpowers.yml` |
 | Reviews | Always two-stage | Separate / Combined / Off |
-| Pipeline stages | Hardcoded in each skill | Centralized in `workflow.yml` |
+| Pipeline stages | Hardcoded in each skill | Centralized, customizable `workflow.yml` |
 | User config | None | `.superpowers.yml` per project |
+| Per-skill overrides | None | `skills.<name>.<key>` in config |
 | Presets | None | startup / enterprise / learning |
 | Interrupt/resume | None | Progress persisted to `.superpowers/progress.json` |
+| Config validation | None | Warns about typos, invalid values, conflicts |
 | Windows | Bash only | PowerShell scripts included |
 | Token tracking | None | Optional metrics and token logging |
 | Custom skills | None | `.superpowers/skills/` directory |
