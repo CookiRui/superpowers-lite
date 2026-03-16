@@ -8,11 +8,16 @@ An optimized fork of [superpowers](https://github.com/obra/superpowers) by Jesse
 |---------|-------------|-----------------|
 | Workflow mode | Always full pipeline | Full, Quick, or Auto mode |
 | Small tasks | Full brainstorming → spec → plan | Quick mode: straight to implementation |
-| TDD | Always required | Required / Recommended / Off (configurable) |
+| TDD | Always required | Required / Recommended / Off |
 | Document paths | Hardcoded `docs/superpowers/specs/` | Configurable via `.superpowers.yml` |
-| Reviews | Always two-stage | Separate / Combined / Off (configurable) |
+| Reviews | Always two-stage | Separate / Combined / Off |
 | Pipeline stages | Hardcoded in each skill | Centralized in `workflow.yml` |
 | User config | None | `.superpowers.yml` per project |
+| Presets | None | startup / enterprise / learning |
+| Interrupt/resume | None | Progress persisted to `.superpowers/progress.json` |
+| Windows | Bash only | PowerShell scripts included |
+| Token tracking | None | Optional metrics and token logging |
+| Custom skills | None | `.superpowers/skills/` directory |
 
 ## Quick Start
 
@@ -25,14 +30,21 @@ An optimized fork of [superpowers](https://github.com/obra/superpowers) by Jesse
 
 ### Configuration (Optional)
 
-Create `.superpowers.yml` in your project root:
+Generate a config interactively:
+```
+/init-config
+```
+
+Or create `.superpowers.yml` manually:
 
 ```yaml
-# Quick start: just set the mode
-mode: auto          # auto | full | quick
+# Quick start with a preset
+preset: startup       # startup | enterprise | learning
 
-# Common overrides
-tdd: recommended    # required | recommended | off
+# Or configure individually
+mode: auto            # auto | full | quick
+tdd: recommended      # required | recommended | off
+review_mode: combined # separate | combined
 auto_commit: true
 paths:
   specs: "docs/specs"
@@ -41,7 +53,7 @@ paths:
 
 See [`.superpowers.yml`](.superpowers.yml) for all available options.
 
-If you don't create a config file, everything works like the original superpowers.
+No config file = original superpowers behavior (all defaults).
 
 ## How It Works
 
@@ -59,13 +71,23 @@ brainstorming → writing-plans → worktree → subagent execution → finish
 quick-mode → implement → verify → commit
 ```
 
-### Full Mode
+### Pipeline Presets
 
-Same as original superpowers — full pipeline for everything.
+| Preset | Best For | TDD | Reviews | Mode |
+|--------|----------|-----|---------|------|
+| `startup` | Prototyping, solo devs | recommended | off | auto |
+| `enterprise` | Production, teams | required | separate | full |
+| `learning` | New users, education | required | separate (verbose) | full |
 
-### Quick Mode
+### Interrupt/Resume
 
-Every task goes through the lightweight path. Best for maintenance/iteration work.
+If a session is interrupted mid-pipeline, the next session detects `.superpowers/progress.json` and offers to resume:
+
+```
+Found interrupted work: "payment-system"
+- Progress: 3/5 tasks completed
+- Options: Resume / Start over / Ignore
+```
 
 ## Skills Library
 
@@ -79,7 +101,13 @@ Every task goes through the lightweight path. Best for maintenance/iteration wor
 
 ### New in Lite
 - **quick-mode** — Fast-track small tasks without full pipeline
-- **loading-config** — Reads `.superpowers.yml` at session start
+- **loading-config** — Reads config, applies presets, validates, loads custom skills
+- **config-validation** — Warns about invalid config values
+- **progress-tracking** — Persist/resume interrupted work
+- **token-optimization** — Smart review skipping based on complexity
+- **pipeline-presets** — Named config presets (startup/enterprise/learning)
+- **metrics-reporting** — Track tokens, time, review iterations
+- **custom-skills** — Load user-defined skills from `.superpowers/skills/`
 
 ### Quality & Discipline
 - **test-driven-development** — RED-GREEN-REFACTOR (configurable strictness)
@@ -97,18 +125,33 @@ Every task goes through the lightweight path. Best for maintenance/iteration wor
 
 ## Pipeline Customization
 
-Edit `pipeline` in `.superpowers.yml` to add/remove/reorder stages:
+Edit `pipeline` in `.superpowers.yml`:
 
 ```yaml
-# Minimal pipeline: skip worktree and reviews
 pipeline:
   - brainstorming
   - writing-plans
   - subagent-driven-development
+  - my-deploy-check              # custom skill
   - finishing-a-development-branch
 ```
 
-See [`workflow.yml`](workflow.yml) for the full pipeline definition.
+## Custom Skills
+
+Create project-specific skills in `.superpowers/skills/`:
+
+```
+.superpowers/skills/my-deploy-check/SKILL.md
+```
+
+Skills are auto-discovered. Same name as a built-in = override.
+
+## Windows Support
+
+PowerShell scripts included alongside bash:
+- `start-server.ps1` / `start-server.sh`
+- `stop-server.ps1` / `stop-server.sh`
+- `run-hook.ps1` / `run-hook.cmd`
 
 ## Credits
 

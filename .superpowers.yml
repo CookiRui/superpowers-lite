@@ -69,3 +69,30 @@ pipeline:
 skip_review_in_quick_mode: false
 # Max spec review iterations before escalating to human
 max_review_iterations: 5
+# Track token usage to .superpowers/token-log.jsonl
+track_tokens: false
+
+# --- Pipeline Presets ---
+# Use a named preset instead of configuring individual settings.
+# Presets set sensible defaults; individual settings above override them.
+# Options: "startup", "enterprise", "learning"
+# preset: startup
+
+# --- Per-Skill Overrides ---
+# Override settings for specific skills. Only the listed keys are overridden;
+# everything else inherits from the top-level config.
+# skills:
+#   brainstorming:
+#     max_questions: 5           # Limit clarifying questions
+#   subagent-driven-development:
+#     model_preference: fast     # Use cheaper models for implementation
+#   test-driven-development:
+#     strict_delete: false       # Don't force delete pre-test code
+
+# --- Custom Skills ---
+# Load additional skills from a local directory (extends built-in skills).
+# custom_skills_dir: ".superpowers/skills"
+
+# --- Metrics ---
+# Save pipeline metrics to .superpowers/metrics.jsonl after each run.
+# track_metrics: false
