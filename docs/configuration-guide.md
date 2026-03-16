@@ -102,13 +102,14 @@ pipeline:
   - brainstorming
   - writing-plans
   - using-git-worktrees
+  - project-setup                  # generates CLAUDE.md from spec/plan/config
   - subagent-driven-development
   - finishing-a-development-branch
 ```
 
 Remove stages to skip them:
 ```yaml
-# No worktree, work on current branch
+# Minimal: no worktree, no CLAUDE.md generation
 pipeline:
   - brainstorming
   - writing-plans

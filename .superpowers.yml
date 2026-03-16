@@ -61,6 +61,7 @@ pipeline:
   - brainstorming
   - writing-plans
   - using-git-worktrees
+  - project-setup                  # generates CLAUDE.md from spec/plan/config
   - subagent-driven-development   # or "executing-plans" if no subagent support
   - finishing-a-development-branch
 

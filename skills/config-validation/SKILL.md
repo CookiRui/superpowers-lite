@@ -48,9 +48,10 @@ skip_review_in_quick_mode, max_review_iterations, skills, preset
 Each entry in `pipeline` must be a valid skill name:
 ```
 brainstorming, writing-plans, using-git-worktrees,
-subagent-driven-development, executing-plans,
+project-setup, subagent-driven-development, executing-plans,
 finishing-a-development-branch
 ```
+(Custom skill names are also valid if they exist in the custom skills directory)
 
 ### Conflict Detection
 

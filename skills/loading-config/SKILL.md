@@ -44,6 +44,7 @@ pipeline:
   - brainstorming
   - writing-plans
   - using-git-worktrees
+  - project-setup
   - subagent-driven-development
   - finishing-a-development-branch
 skip_review_in_quick_mode: false

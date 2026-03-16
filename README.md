@@ -101,6 +101,7 @@ Found interrupted work: "payment-system"
 
 ### New in Lite
 - **quick-mode** — Fast-track small tasks without full pipeline
+- **project-setup** — Auto-generate CLAUDE.md from spec/plan/config before implementation
 - **loading-config** — Reads config, applies presets, validates, loads custom skills
 - **config-validation** — Warns about invalid config values
 - **progress-tracking** — Persist/resume interrupted work

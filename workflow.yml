@@ -27,8 +27,15 @@ full_pipeline:
     - name: setup-workspace
       skill: using-git-worktrees
       description: "Create isolated git worktree for development"
-      next: execute
+      next: project-setup
       skippable: true   # Can work on current branch if use_worktree: false
+
+    - name: project-setup
+      skill: project-setup
+      description: "Generate/update CLAUDE.md with project conventions from spec, plan, and config"
+      outputs: ["CLAUDE.md"]
+      next: execute
+      skippable: true   # Can skip if CLAUDE.md already comprehensive
 
     - name: execute
       skill: subagent-driven-development
