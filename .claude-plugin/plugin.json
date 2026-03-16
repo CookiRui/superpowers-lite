@@ -1,7 +1,7 @@
 {
   "name": "superpowers-lite",
   "description": "Optimized AI coding workflow with configurable pipeline, quick-mode, and user preferences. Based on superpowers by Jesse Vincent.",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "CookiRui"
   },

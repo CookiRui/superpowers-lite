@@ -7,7 +7,7 @@ Guide for using Superpowers with OpenAI Codex via native skill discovery.
 Tell Codex:
 
 ```
-Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.codex/INSTALL.md
+Fetch and follow instructions from https://raw.githubusercontent.com/CookiRui/superpowers-lite/refs/heads/main/.codex/INSTALL.md
 ```
 
 ## Manual Installation
