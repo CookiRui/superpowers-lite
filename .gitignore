@@ -5,6 +5,7 @@
 node_modules/
 inspo
 triage/
-.superpowers/progress.json
-.superpowers/token-log.jsonl
-.superpowers/metrics.jsonl
+# Superpowers Lite runtime files (progress, metrics, tokens)
+.superpowers/
+# But keep custom skills if committed
+!.superpowers/skills/

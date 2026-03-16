@@ -134,7 +134,7 @@ After completing each chunk of the plan:
 
 After saving the plan:
 
-**"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Ready to execute?"**
+**"Plan complete and saved to `<configured plans path>/<filename>.md`. Ready to execute?"**
 
 **Execution path depends on harness capabilities:**
 

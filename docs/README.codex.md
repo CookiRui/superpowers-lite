@@ -21,7 +21,7 @@ Fetch and follow instructions from https://raw.githubusercontent.com/obra/superp
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/obra/superpowers.git ~/.codex/superpowers
+   git clone https://github.com/CookiRui/superpowers-lite.git ~/.codex/superpowers
    ```
 
 2. Create the skills symlink:
@@ -122,5 +122,5 @@ Junctions normally work without special permissions. If creation fails, try runn
 
 ## Getting Help
 
-- Report issues: https://github.com/obra/superpowers/issues
-- Main documentation: https://github.com/obra/superpowers
+- Report issues: https://github.com/CookiRui/superpowers-lite/issues
+- Main documentation: https://github.com/CookiRui/superpowers-lite
