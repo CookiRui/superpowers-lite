@@ -1,0 +1,107 @@
+# Superpowers Lite — Workflow Pipeline Definition
+#
+# This file centralizes the flow transitions between skills.
+# Instead of each SKILL.md hardcoding "next invoke X", skills
+# consult this file to determine the next stage.
+#
+# Users can override this by defining `pipeline` in .superpowers.yml
+
+# --- Full Pipeline (default) ---
+# Used when mode: full, or mode: auto with complex tasks
+full_pipeline:
+  stages:
+    - name: brainstorming
+      skill: brainstorming
+      description: "Explore requirements, ask questions, produce design spec"
+      outputs: ["spec document"]
+      next: writing-plans
+      skippable: false  # Core design stage
+
+    - name: writing-plans
+      skill: writing-plans
+      description: "Break spec into bite-sized implementation tasks"
+      outputs: ["plan document"]
+      next: setup-workspace
+      skippable: false
+
+    - name: setup-workspace
+      skill: using-git-worktrees
+      description: "Create isolated git worktree for development"
+      next: execute
+      skippable: true   # Can work on current branch if use_worktree: false
+
+    - name: execute
+      skill: subagent-driven-development
+      description: "Execute plan tasks with subagent dispatch and review"
+      alternatives:
+        - skill: executing-plans
+          condition: "No subagent support available"
+      next: finish
+      skippable: false
+
+    - name: finish
+      skill: finishing-a-development-branch
+      description: "Verify tests, present merge/PR/keep/discard options"
+      next: null  # Terminal stage
+      skippable: false
+
+# --- Quick Pipeline ---
+# Used when mode: quick, or mode: auto with small tasks
+quick_pipeline:
+  stages:
+    - name: assess
+      skill: quick-mode
+      description: "Assess scope, confirm with user, implement directly"
+      next: implement
+      skippable: false
+
+    - name: implement
+      skill: test-driven-development
+      description: "TDD implementation (if tdd != off)"
+      condition: "tdd is required or recommended"
+      next: verify
+      skippable: true   # Skipped if tdd: off
+
+    - name: verify
+      skill: verification-before-completion
+      description: "Run tests, verify everything works"
+      next: commit
+      skippable: false
+
+    - name: commit
+      description: "Commit changes"
+      condition: "auto_commit: true"
+      next: null
+      skippable: true
+
+# --- Support Skills (invoked on-demand, not part of linear pipeline) ---
+support_skills:
+  - name: systematic-debugging
+    trigger: "Bug investigation, test failures, error diagnosis"
+
+  - name: requesting-code-review
+    trigger: "Between tasks or before merge"
+
+  - name: receiving-code-review
+    trigger: "When review feedback is received"
+
+  - name: dispatching-parallel-agents
+    trigger: "Multiple independent problems to solve concurrently"
+
+  - name: verification-before-completion
+    trigger: "Before any completion claim"
+
+  - name: loading-config
+    trigger: "Session start — reads .superpowers.yml"
+
+# --- Flow Transition Rules ---
+transitions:
+  # How skills determine what comes next:
+  # 1. Check .superpowers.yml `pipeline` — if defined, follow that order
+  # 2. Otherwise, follow full_pipeline or quick_pipeline based on mode
+  # 3. If a stage is skipped (skippable: true + config says skip), move to next
+  # 4. Support skills can be invoked at any point without affecting pipeline position
+
+  # Error handling:
+  on_failure: "Stop and ask the user. Never force through blockers."
+  on_escalation: "If a stage fails 3+ times, suggest switching approach or ask user."

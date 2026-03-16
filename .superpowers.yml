@@ -1,0 +1,71 @@
+# Superpowers Lite Configuration
+# Copy this file to your project root and customize as needed.
+# All settings are optional - defaults are shown below.
+
+# --- Workflow Mode ---
+# "full" = original brainstorming → spec → plan → execute pipeline
+# "quick" = skip spec/plan for small tasks, go straight to TDD implementation
+# "auto" = let the agent decide based on task complexity (default)
+mode: auto
+
+# --- Quick Mode Threshold ---
+# When mode is "auto", these hints help the agent decide.
+# Tasks matching ANY of these patterns will use quick mode:
+quick_mode:
+  # Estimated scope: tasks touching <= this many files
+  max_files: 3
+  # Estimated time: tasks under this duration (minutes)
+  max_minutes: 15
+  # Pattern hints (the agent uses these as guidance, not rigid rules)
+  patterns:
+    - "bug fix"
+    - "typo"
+    - "style change"
+    - "rename"
+    - "config change"
+    - "dependency update"
+    - "small refactor"
+
+# --- Test-Driven Development ---
+# "required" = strict TDD, no exceptions (original behavior)
+# "recommended" = TDD encouraged but not enforced
+# "off" = no TDD requirement
+tdd: required
+
+# --- Git Behavior ---
+auto_commit: true          # Auto-commit after each task
+use_worktree: true         # Create git worktree for isolation
+# Branch naming pattern. {feature} is replaced with the feature name.
+branch_pattern: "feature/{feature}"
+
+# --- Reviews ---
+spec_review: true          # Run spec document review loop
+code_review: true          # Run code quality review after each task
+# "separate" = spec review then code quality review (original, more thorough)
+# "combined" = single review covering both spec + quality (faster, fewer tokens)
+review_mode: separate
+
+# --- Document Paths ---
+# Where to save spec and plan documents. Supports date/name placeholders.
+paths:
+  specs: "docs/specs"
+  plans: "docs/plans"
+  # File naming pattern. {date} = YYYY-MM-DD, {name} = feature name
+  spec_pattern: "{date}-{name}-design.md"
+  plan_pattern: "{date}-{name}.md"
+
+# --- Pipeline Customization ---
+# Define which stages to include. Comment out or remove stages to skip them.
+# Order matters - stages execute top to bottom.
+pipeline:
+  - brainstorming
+  - writing-plans
+  - using-git-worktrees
+  - subagent-driven-development   # or "executing-plans" if no subagent support
+  - finishing-a-development-branch
+
+# --- Token Optimization ---
+# Skip reviews for tasks estimated to be trivial (quick mode only)
+skip_review_in_quick_mode: false
+# Max spec review iterations before escalating to human
+max_review_iterations: 5

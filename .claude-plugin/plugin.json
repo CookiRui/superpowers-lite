@@ -1,0 +1,12 @@
+{
+  "name": "superpowers-lite",
+  "description": "Optimized AI coding workflow with configurable pipeline, quick-mode, and user preferences. Based on superpowers by Jesse Vincent.",
+  "version": "1.0.0",
+  "author": {
+    "name": "CookiRui"
+  },
+  "homepage": "https://github.com/CookiRui/superpowers-lite",
+  "repository": "https://github.com/CookiRui/superpowers-lite",
+  "license": "MIT",
+  "keywords": ["skills", "tdd", "debugging", "collaboration", "best-practices", "workflows", "configurable", "quick-mode"]
+}
